@@ -1,0 +1,16 @@
+# 采集到的信息条目将保存在这里
+
+# 文件命名规范：YYYY-MM-DD-slug.md
+# 例：2026-08-08-vietnam-ai-regulation.md
+
+# front matter 格式：
+# ---
+# title: 信息标题
+# date: 2026-08-08
+# topic: tech
+# country: vn
+# source: 来源名称
+# sourceUrl: https://...
+# summary: 简短摘要
+# language: zh | en
+# ---

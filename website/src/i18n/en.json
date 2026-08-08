@@ -1,0 +1,73 @@
+{
+  "site": {
+    "title": "Sea Radar",
+    "subtitle": "Southeast Asia Frontier Information Radar",
+    "tagline": "Continuous Collection · Curation · Local Archive · Public Publishing",
+    "description": "An open-source information aggregation project focused on Southeast Asia, dedicated to continuous monitoring, curation, local archiving, and public publishing of frontier information.",
+    "footer": "Turning Southeast Asia's latest developments into a sustainable knowledge asset."
+  },
+  "nav": {
+    "home": "Home",
+    "news": "News Feed",
+    "about": "About",
+    "language": "Language"
+  },
+  "home": {
+    "heroTitle": "Southeast Asia Frontier Information Radar",
+    "heroSubtitle": "Continuous Monitoring · Curation · Local Archive · Public Publishing",
+    "heroDesc": "Sea Radar is an open-source information aggregation project focused on Southeast Asia, aiming to build a long-term maintainable local historical database.",
+    "todayPicks": "Today's Picks",
+    "topicsTitle": "Browse by Topic",
+    "statsTitle": "Project Statistics",
+    "subscribeTitle": "Subscribe",
+    "subscribeDesc": "Subscribe via RSS to get the latest updates",
+    "viewAll": "View All →"
+  },
+  "news": {
+    "title": "News Feed",
+    "subtitle": "Curated Southeast Asia frontier information, sorted by date",
+    "noItems": "No news items yet",
+    "readMore": "Read original →",
+    "publishedOn": "Published on",
+    "filter": "Filter",
+    "allTopics": "All Topics"
+  },
+  "about": {
+    "title": "About Sea Radar",
+    "intro": "Sea Radar (Southeast Asia Frontier Information Radar) is an open-source, long-term maintainable information aggregation project.",
+    "mission": "Our Mission",
+    "missionDesc": "Continuously monitor political, economic, technological, social, and cultural developments in Southeast Asia. Filter out noise through curation, build a searchable local historical database, and finally present valuable content to the public through our publishing site.",
+    "team": "Team",
+    "teamMembers": "This project is co-maintained by kivithink-pop and HU.",
+    "roadmap": "Roadmap",
+    "roadmapItems": [
+      "✅ MVP live: Home + News Feed + About",
+      "🚧 Topic / country views",
+      "🚧 Search and advanced filtering",
+      "📋 Curated stories and data insights",
+      "📋 Email / Telegram push",
+      "📋 Open API and dataset downloads"
+    ],
+    "license": "License",
+    "licenseDesc": "This project is licensed under the MIT License.",
+    "repoLink": "GitHub Repository",
+    "contribute": "Contribute",
+    "contributeDesc": "We welcome participation through Issues, Discussions, or Pull Requests."
+  },
+  "topics": {
+    "politics": "Politics",
+    "economy": "Economy",
+    "tech": "Technology",
+    "society": "Society",
+    "culture": "Culture",
+    "environment": "Environment",
+    "business": "Business",
+    "education": "Education"
+  },
+  "stats": {
+    "items": "Items",
+    "countries": "Countries",
+    "sources": "Sources",
+    "updated": "Last Updated"
+  }
+}

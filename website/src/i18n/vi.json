@@ -1,0 +1,73 @@
+{
+  "site": {
+    "title": "Sea Radar",
+    "subtitle": "Radar Thông tin Tiên phong Đông Nam Á",
+    "tagline": "Thu thập liên tục · Tuyển chọn · Lưu trữ cục bộ · Xuất bản công khai",
+    "description": "Một dự án tổng hợp thông tin mã nguồn mở tập trung vào Đông Nam Á, cam kết theo dõi liên tục, tuyển chọn, lưu trữ cục bộ và xuất bản công khai thông tin tiên phong.",
+    "footer": "Biến những diễn biến mới nhất của Đông Nam Á thành tài sản tri thức bền vững."
+  },
+  "nav": {
+    "home": "Trang chủ",
+    "news": "Bản tin",
+    "about": "Giới thiệu",
+    "language": "Ngôn ngữ"
+  },
+  "home": {
+    "heroTitle": "Radar Thông tin Tiên phong Đông Nam Á",
+    "heroSubtitle": "Theo dõi liên tục · Tuyển chọn · Lưu trữ · Xuất bản",
+    "heroDesc": "Sea Radar là dự án tổng hợp thông tin mã nguồn mở tập trung vào Đông Nam Á, nhằm xây dựng cơ sở dữ liệu lịch sử cục bộ có thể duy trì lâu dài.",
+    "todayPicks": "Tin nổi bật hôm nay",
+    "topicsTitle": "Duyệt theo chủ đề",
+    "statsTitle": "Thống kê dự án",
+    "subscribeTitle": "Đăng ký theo dõi",
+    "subscribeDesc": "Đăng ký qua RSS để nhận thông tin cập nhật mới nhất",
+    "viewAll": "Xem tất cả →"
+  },
+  "news": {
+    "title": "Bản tin",
+    "subtitle": "Thông tin tiên phong Đông Nam Á đã được tuyển chọn, sắp xếp theo ngày",
+    "noItems": "Chưa có mục tin tức nào",
+    "readMore": "Đọc bản gốc →",
+    "publishedOn": "Đăng ngày",
+    "filter": "Lọc",
+    "allTopics": "Tất cả chủ đề"
+  },
+  "about": {
+    "title": "Giới thiệu về Sea Radar",
+    "intro": "Sea Radar (Radar Thông tin Tiên phong Đông Nam Á) là dự án tổng hợp thông tin mã nguồn mở, có thể duy trì lâu dài.",
+    "mission": "Sứ mệnh",
+    "missionDesc": "Liên tục theo dõi các diễn biến chính trị, kinh tế, công nghệ, xã hội và văn hóa tại Đông Nam Á. Lọc bỏ nhiễu thông qua tuyển chọn, xây dựng cơ sở dữ liệu lịch sử cục bộ có thể tìm kiếm, và cuối cùng trình bày nội dung có giá trị cho công chúng.",
+    "team": "Đội ngũ",
+    "teamMembers": "Dự án này được đồng duy trì bởi kivithink-pop và HU.",
+    "roadmap": "Lộ trình",
+    "roadmapItems": [
+      "✅ MVP đã ra mắt: Trang chủ + Bản tin + Giới thiệu",
+      "🚧 Chế độ xem theo chủ đề/quốc gia",
+      "🚧 Tìm kiếm và lọc nâng cao",
+      "📋 Câu chuyện tuyển chọn và phân tích dữ liệu",
+      "📋 Đẩy thông báo email/Telegram",
+      "📋 API mở và tải xuống tập dữ liệu"
+    ],
+    "license": "Giấy phép",
+    "licenseDesc": "Dự án này được cấp phép theo Giấy phép MIT.",
+    "repoLink": "Kho GitHub",
+    "contribute": "Đóng góp",
+    "contributeDesc": "Chúng tôi hoan nghênh sự tham gia thông qua Issue, Discussion hoặc Pull Request."
+  },
+  "topics": {
+    "politics": "Chính trị",
+    "economy": "Kinh tế",
+    "tech": "Công nghệ",
+    "society": "Xã hội",
+    "culture": "Văn hóa",
+    "environment": "Môi trường",
+    "business": "Kinh doanh",
+    "education": "Giáo dục"
+  },
+  "stats": {
+    "items": "Mục",
+    "countries": "Quốc gia",
+    "sources": "Nguồn",
+    "updated": "Cập nhật lần cuối"
+  }
+}

@@ -1,0 +1,55 @@
+---
+import { getLocaleFromUrl, useTranslations, getLocalizedPath } from '../i18n/utils.js';
+
+const lang = getLocaleFromUrl(Astro.url);
+const t = useTranslations(lang);
+---
+<header class="page-header">
+  <h1>{t('news.title')}</h1>
+  <p class="page-subtitle">{t('news.subtitle')}</p>
+</header>
+
+<div class="news-empty">
+  <div class="empty-icon">📡</div>
+  <h2>{t('news.noItems')}</h2>
+  <p>
+    {lang === 'zh' ? '我们正在搭建信息采集与甄选管道。第一批内容即将上线。' :
+     lang === 'en' ? 'We are building the collection and curation pipeline. First content coming soon.' :
+     lang === 'th' ? 'เรากำลังสร้างท่อส่งข้อมูลและการคัดสรร เนื้อหาแรกกำลังจะมาเร็วๆ นี้' :
+     lang === 'vi' ? 'Chúng tôi đang xây dựng quy trình thu thập và tuyển chọn. Nội dung đầu tiên sắp ra mắt.' :
+     'យើងកំពុងសាងសង់បំពង់បង្ហូរប្រមូលនិងជ្រើសរើស។ ខ្លឹមសារដំបូងនឹងមកដល់ឆាប់ៗ។'}
+  </p>
+  <a href={getLocalizedPath('/', lang)} class="btn">← {t('nav.home')}</a>
+</div>
+
+<style>
+  .page-header { margin-bottom: 2rem; }
+  .page-subtitle {
+    color: var(--color-text-muted);
+    font-size: 1.125rem;
+    margin-top: 0.5rem;
+  }
+  .news-empty {
+    text-align: center;
+    padding: 4rem 2rem;
+    background: var(--color-bg-soft);
+    border-radius: 12px;
+    border: 1px dashed var(--color-border);
+  }
+  .empty-icon { font-size: 4rem; margin-bottom: 1rem; }
+  .news-empty h2 { margin-bottom: 1rem; }
+  .news-empty p {
+    color: var(--color-text-muted);
+    max-width: 500px;
+    margin: 0 auto 2rem;
+  }
+  .btn {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    background: var(--color-primary);
+    color: white;
+    border-radius: var(--radius);
+    font-weight: 600;
+  }
+  .btn:hover { background: var(--color-primary-dark); color: white; }
+</style>

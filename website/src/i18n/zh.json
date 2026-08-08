@@ -1,0 +1,73 @@
+{
+  "site": {
+    "title": "Sea Radar",
+    "subtitle": "东南亚前沿信息雷达",
+    "tagline": "持续采集 · 甄选筛选 · 本地存档 · 对外发布",
+    "description": "一个面向东南亚的开源信息聚合项目，专注于持续关注、甄选、本地存档并对外发布前沿信息。",
+    "footer": "把东南亚的最新动态，沉淀为可持续的知识资产。"
+  },
+  "nav": {
+    "home": "首页",
+    "news": "信息流",
+    "about": "关于",
+    "language": "语言"
+  },
+  "home": {
+    "heroTitle": "东南亚前沿信息雷达",
+    "heroSubtitle": "持续关注、甄选筛选、本地存档、对外发布",
+    "heroDesc": "Sea Radar 是一个面向东南亚（Southeast Asia, SEA）的开源信息聚合项目，旨在建立一个长期可维护的本地历史数据库。",
+    "todayPicks": "今日精选",
+    "topicsTitle": "主题入口",
+    "statsTitle": "项目数据",
+    "subscribeTitle": "订阅更新",
+    "subscribeDesc": "通过 RSS 订阅，第一时间获取最新信息",
+    "viewAll": "查看全部 →"
+  },
+  "news": {
+    "title": "信息流",
+    "subtitle": "按时间倒序展示所有甄选后的东南亚前沿信息",
+    "noItems": "暂无信息条目",
+    "readMore": "阅读原文 →",
+    "publishedOn": "发布于",
+    "filter": "筛选",
+    "allTopics": "全部主题"
+  },
+  "about": {
+    "title": "关于 Sea Radar",
+    "intro": "Sea Radar（东南亚前沿信息雷达）是一个开源的、长期可维护的信息聚合项目。",
+    "mission": "项目使命",
+    "missionDesc": "持续关注东南亚地区的政治、经济、科技、社会、文化等前沿动态，通过甄选筛选去除噪音，建立可检索的本地历史数据库，最终通过对外发布站点向公众展示有价值的内容。",
+    "team": "团队",
+    "teamMembers": "本项目由 kivithink-pop 与 HU 共同维护。",
+    "roadmap": "路线图",
+    "roadmapItems": [
+      "✅ MVP 上线：首页 + 信息流 + 关于页",
+      "🚧 主题/国家分类视图",
+      "🚧 搜索与高级筛选",
+      "📋 甄选专题与数据洞察",
+      "📋 邮件/Telegram 推送",
+      "📋 开放 API 与数据集下载"
+    ],
+    "license": "许可证",
+    "licenseDesc": "本项目采用 MIT 许可证。",
+    "repoLink": "GitHub 仓库",
+    "contribute": "贡献",
+    "contributeDesc": "欢迎通过 Issue、Discussion 或 Pull Request 参与项目。"
+  },
+  "topics": {
+    "politics": "政治",
+    "economy": "经济",
+    "tech": "科技",
+    "society": "社会",
+    "culture": "文化",
+    "environment": "环境",
+    "business": "商业",
+    "education": "教育"
+  },
+  "stats": {
+    "items": "信息条目",
+    "countries": "覆盖国家",
+    "sources": "信息源",
+    "updated": "最后更新"
+  }
+}

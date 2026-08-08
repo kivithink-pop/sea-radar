@@ -1,0 +1,106 @@
+---
+import { getLocaleFromUrl, useTranslations } from '../i18n/utils.js';
+
+const lang = getLocaleFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const roadmapItems = t('about.roadmapItems');
+---
+<article class="about">
+  <header class="page-header">
+    <h1>{t('about.title')}</h1>
+    <p class="page-intro">{t('about.intro')}</p>
+  </header>
+
+  <section class="section">
+    <h2>🎯 {t('about.mission')}</h2>
+    <p>{t('about.missionDesc')}</p>
+  </section>
+
+  <section class="section">
+    <h2>👥 {t('about.team')}</h2>
+    <p>{t('about.teamMembers')}</p>
+  </section>
+
+  <section class="section">
+    <h2>🗺️ {t('about.roadmap')}</h2>
+    <ul class="roadmap">
+      {Array.isArray(roadmapItems) && roadmapItems.map((item) => (
+        <li>{item}</li>
+      ))}
+    </ul>
+  </section>
+
+  <section class="section">
+    <h2>📜 {t('about.license')}</h2>
+    <p>
+      {t('about.licenseDesc')}
+      {' '}
+      <a href="https://github.com/kivithink-pop/sea-radar/blob/main/LICENSE" target="_blank" rel="noopener">
+        {t('about.repoLink')}
+      </a>
+    </p>
+  </section>
+
+  <section class="section">
+    <h2>🤝 {t('about.contribute')}</h2>
+    <p>
+      {t('about.contributeDesc')}
+    </p>
+    <div class="action-buttons">
+      <a href="https://github.com/kivithink-pop/sea-radar/issues" target="_blank" rel="noopener" class="btn">📝 Issues</a>
+      <a href="https://github.com/kivithink-pop/sea-radar/discussions" target="_blank" rel="noopener" class="btn">💬 Discussions</a>
+      <a href="https://github.com/kivithink-pop/sea-radar/fork" target="_blank" rel="noopener" class="btn">🔀 Fork</a>
+    </div>
+  </section>
+</article>
+
+<style>
+  .about { max-width: 800px; margin: 0 auto; }
+  .page-header { margin-bottom: 3rem; }
+  .page-intro {
+    font-size: 1.125rem;
+    color: var(--color-text-muted);
+    margin-top: 0.5rem;
+  }
+  .section { margin-bottom: 2.5rem; }
+  .section h2 {
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+  .section p { line-height: 1.8; color: var(--color-text); }
+  .roadmap {
+    list-style: none;
+    padding: 0;
+  }
+  .roadmap li {
+    padding: 0.75rem 1rem;
+    background: var(--color-bg-soft);
+    border-left: 3px solid var(--color-primary);
+    border-radius: 0 var(--radius) var(--radius) 0;
+    margin-bottom: 0.5rem;
+    font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    font-size: 0.95rem;
+  }
+  .action-buttons {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+    flex-wrap: wrap;
+  }
+  .btn {
+    display: inline-block;
+    padding: 0.6rem 1.2rem;
+    background: var(--color-bg);
+    color: var(--color-text);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    font-weight: 500;
+    transition: all 0.2s;
+  }
+  .btn:hover {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+  }
+</style>
