@@ -1,12 +1,12 @@
 ---
-import { getLocaleFromUrl, useTranslations, localeNames, localeFlags, getLocalizedPath } from '../i18n/utils.js';
+import { getLocaleFromUrl, useTranslations, localeNames, localeFlags, getLocalizedPath, getPathWithoutLocale, basePath } from '../i18n/utils.js';
 import '../styles/global.css';
 
 const { url } = Astro;
 const lang = getLocaleFromUrl(url);
 const t = useTranslations(lang);
 
-const currentPath = url.pathname.replace(/^\/(en|th|vi|km)/, '') || '/';
+const currentPath = getPathWithoutLocale(url);
 ---
 <!DOCTYPE html>
 <html lang={lang}>

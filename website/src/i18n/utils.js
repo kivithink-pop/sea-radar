@@ -13,6 +13,7 @@ export const languages = {
 };
 
 export const defaultLang = 'zh';
+export const basePath = '/sea-radar';
 
 export const ui = languages;
 
@@ -33,9 +34,31 @@ export const localeFlags = {
 };
 
 export function getLocaleFromUrl(url) {
-  const [, lang] = url.pathname.split('/');
-  if (lang in languages) return lang;
+  const pathname = url.pathname;
+
+  const cleanPath = pathname.startsWith(basePath)
+    ? pathname.slice(basePath.length)
+    : pathname;
+
+  const segments = cleanPath.split('/').filter(Boolean);
+  const first = segments[0];
+
+  if (first && first in languages) {
+    return first;
+  }
   return defaultLang;
+}
+
+export function getPathWithoutLocale(url) {
+  const pathname = url.pathname;
+  const cleanPath = pathname.startsWith(basePath)
+    ? pathname.slice(basePath.length)
+    : pathname;
+  const segments = cleanPath.split('/').filter(Boolean);
+  if (segments.length > 0 && segments[0] in languages) {
+    return '/' + segments.slice(1).join('/');
+  }
+  return cleanPath || '/';
 }
 
 export function useTranslations(lang) {
@@ -46,7 +69,6 @@ export function useTranslations(lang) {
       if (result && typeof result === 'object' && k in result) {
         result = result[k];
       } else {
-        // Fallback to English
         result = languages.en;
         for (const k2 of keys) {
           if (result && typeof result === 'object' && k2 in result) {
@@ -64,8 +86,7 @@ export function useTranslations(lang) {
 
 export function getLocalizedPath(path, lang) {
   const cleanPath = path.startsWith('/') ? path : `/${path}`;
-  if (lang === defaultLang) {
-    return cleanPath;
-  }
-  return `/${lang}${cleanPath}`;
+  const normalized = cleanPath === '/' ? '/' : cleanPath.replace(/\/$/, '');
+  const langPrefix = lang === defaultLang ? '' : `/${lang}`;
+  return `${basePath}${langPrefix}${normalized === '/' ? '/' : normalized}`;
 }
