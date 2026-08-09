@@ -1,7 +1,100 @@
 ---
 import BaseLayout from '../../../layouts/BaseLayout.astro';
-import NewsContent from '../../../components/NewsContent.astro';
+import { getCollection } from 'astro:content';
+import { getLocaleFromUrl, useTranslations, getLocalizedPath } from '../../../i18n/utils.js';
+
+const lang = getLocaleFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const allNews = await getCollection('news');
+const sorted = allNews.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+const topicNames = {
+  politics: t('topics.politics'),
+  economy: t('topics.economy'),
+  tech: t('topics.tech'),
+  society: t('topics.society'),
+  culture: t('topics.culture'),
+  environment: t('topics.environment'),
+  business: t('topics.business'),
+  education: t('topics.education'),
+};
+
+const topicEmojis = {
+  politics: '🌐', economy: '💰', tech: '💻', society: '👥',
+  culture: '🎭', environment: '🌱', business: '💼', education: '📚',
+};
+
+const countryFlags = {
+  vn: '🇻🇳', th: '🇹🇭', id: '🇮🇩', ph: '🇵🇭',
+  my: '🇲🇾', sg: '🇸🇬', mm: '🇲🇲', kh: '🇰🇭',
+  la: '🇱🇦', bn: '🇧🇳', tl: '🇹🇱',
+};
 ---
 <BaseLayout>
-  <NewsContent />
+  <header class="page-header">
+    <h1>{t('news.title')}</h1>
+    <p class="page-subtitle">{t('news.subtitle')}</p>
+    <p class="page-meta">{sorted.length} {t('stats.items')}</p>
+  </header>
+
+  {sorted.length === 0 ? (
+    <div class="news-empty">
+      <div class="empty-icon">📡</div>
+      <h2>{t('news.noItems')}</h2>
+      <p>
+        {lang === 'zh' ? '我们正在搭建信息采集与甄选管道。第一批内容即将上线。' :
+         lang === 'en' ? 'We are building the collection and curation pipeline. First content coming soon.' :
+         lang === 'th' ? 'เรากำลังสร้างท่อส่งข้อมูลและการคัดสรร เนื้อหาแรกกำลังจะมาเร็วๆ นี้' :
+         lang === 'vi' ? 'Chúng tôi đang xây dựng quy trình thu thập và tuyển chọn. Nội dung đầu tiên sắp ra mắt.' :
+         'យើងកំពុងសាងសង់បំពង់បង្ហូរប្រមូលនិងជ្រើសរើស។ ខ្លឹមសារដំបូងនឹងមកដល់ឆាប់ៗ។'}
+      </p>
+      <a href={getLocalizedPath('/', lang)} class="btn">← {t('nav.home')}</a>
+    </div>
+  ) : (
+    <div class="news-list">
+      {sorted.map((item) => (
+        <article class="news-card">
+          <div class="news-meta">
+            {item.data.featured && <span class="badge-featured">⭐ Featured</span>}
+            <span class="news-topic">{topicEmojis[item.data.topic]} {topicNames[item.data.topic]}</span>
+            {item.data.country && <span class="news-country">{countryFlags[item.data.country] || '🌏'} {item.data.country.toUpperCase()}</span>}
+            <time class="news-date">{item.data.date.toISOString().split('T')[0]}</time>
+          </div>
+          <h2 class="news-title">{item.data.title}</h2>
+          <p class="news-summary">{item.data.summary}</p>
+          <div class="news-footer">
+            <span class="news-source">📰 {item.data.source}</span>
+            <a href={item.data.sourceUrl} target="_blank" rel="noopener" class="news-link">
+              {t('news.readMore')}
+            </a>
+          </div>
+        </article>
+      ))}
+    </div>
+  )}
 </BaseLayout>
+
+<style>
+  .page-header { margin-bottom: 2rem; }
+  .page-subtitle { color: var(--color-text-muted); font-size: 1.125rem; margin-top: 0.5rem; }
+  .page-meta { color: var(--color-text-muted); font-size: 0.875rem; margin-top: 0.5rem; }
+  .news-empty { text-align: center; padding: 4rem 2rem; background: var(--color-bg-soft); border-radius: 12px; border: 1px dashed var(--color-border); }
+  .empty-icon { font-size: 4rem; margin-bottom: 1rem; }
+  .news-empty h2 { margin-bottom: 1rem; }
+  .news-empty p { color: var(--color-text-muted); max-width: 500px; margin: 0 auto 2rem; }
+  .btn { display: inline-block; padding: 0.75rem 1.5rem; background: var(--color-primary); color: white; border-radius: var(--radius); font-weight: 600; }
+  .btn:hover { background: var(--color-primary-dark); color: white; }
+  .news-list { display: flex; flex-direction: column; gap: 1.5rem; }
+  .news-card { background: var(--color-card); border: 1px solid var(--color-border); border-radius: 12px; padding: 1.5rem; transition: all 0.2s; }
+  .news-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); border-color: var(--color-primary); }
+  .news-meta { display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center; margin-bottom: 0.75rem; font-size: 0.875rem; }
+  .badge-featured { background: var(--color-accent); color: white; padding: 0.15rem 0.6rem; border-radius: 12px; font-size: 0.75rem; font-weight: 600; }
+  .news-topic, .news-country, .news-date { color: var(--color-text-muted); }
+  .news-title { font-size: 1.25rem; line-height: 1.4; margin-bottom: 0.5rem; }
+  .news-summary { color: var(--color-text); line-height: 1.6; margin-bottom: 1rem; }
+  .news-footer { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem; padding-top: 0.75rem; border-top: 1px solid var(--color-border); }
+  .news-source { font-size: 0.875rem; color: var(--color-text-muted); }
+  .news-link { color: var(--color-primary); font-weight: 500; font-size: 0.875rem; }
+  .news-link:hover { text-decoration: underline; }
+</style>
