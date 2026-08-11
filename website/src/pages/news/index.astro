@@ -1,13 +1,41 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
+import { getCollectedItems } from '../../lib/collected.js';
 import { getLocaleFromUrl, useTranslations, getLocalizedPath } from '../../i18n/utils.js';
 
 const lang = getLocaleFromUrl(Astro.url);
 const t = useTranslations(lang);
 
-const allNews = await getCollection('news');
-const sorted = allNews.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+const samples = await getCollection('news');
+const samplesData = samples.map((s) => ({
+  id: `sample-${s.id}`,
+  title: s.data.title,
+  summary: s.data.summary,
+  url: s.data.sourceUrl,
+  source: s.data.source,
+  country: s.data.country || 'regional',
+  countryName: s.data.country || 'Southeast Asia',
+  topic: s.data.topic,
+  language: s.data.language || 'zh',
+  published: s.data.date.toISOString(),
+  collected_at: s.data.date.toISOString(),
+  isSample: true,
+  featured: s.data.featured || false,
+}));
+
+const collected = getCollectedItems({ limit: 50 });
+const collectedItems = collected.items.map((it) => ({
+  ...it,
+  isSample: false,
+  featured: false,
+}));
+
+const allItems = [...samplesData, ...collectedItems].sort((a, b) => {
+  const ta = new Date(a.published || a.collected_at).getTime();
+  const tb = new Date(b.published || b.collected_at).getTime();
+  return tb - ta;
+});
 
 const topicNames = {
   politics: t('topics.politics'),
@@ -21,38 +49,28 @@ const topicNames = {
 };
 
 const topicEmojis = {
-  politics: '🌐',
-  economy: '💰',
-  tech: '💻',
-  society: '👥',
-  culture: '🎭',
-  environment: '🌱',
-  business: '💼',
-  education: '📚',
+  politics: '🌐', economy: '💰', tech: '💻', society: '👥',
+  culture: '🎭', environment: '🌱', business: '💼', education: '📚',
 };
 
 const countryFlags = {
   vn: '🇻🇳', th: '🇹🇭', id: '🇮🇩', ph: '🇵🇭',
   my: '🇲🇾', sg: '🇸🇬', mm: '🇲🇲', kh: '🇰🇭',
-  la: '🇱🇦', bn: '🇧🇳', tl: '🇹🇱',
-};
-
-const countryNames = {
-  zh: { vn: '越南', th: '泰国', id: '印度尼西亚', ph: '菲律宾', my: '马来西亚', sg: '新加坡', mm: '缅甸', kh: '柬埔寨', la: '老挝', bn: '文莱', tl: '东帝汶' },
-  en: { vn: 'Vietnam', th: 'Thailand', id: 'Indonesia', ph: 'Philippines', my: 'Malaysia', sg: 'Singapore', mm: 'Myanmar', kh: 'Cambodia', la: 'Laos', bn: 'Brunei', tl: 'Timor-Leste' },
-  th: { vn: 'เวียดนาม', th: 'ไทย', id: 'อินโดนีเซีย', ph: 'ฟิลิปปินส์', my: 'มาเลเซีย', sg: 'สิงคโปร์', mm: 'เมียนมา', kh: 'กัมพูชา', la: 'ลาว', bn: 'บรูไน', tl: 'ติมอร์-เลสเต' },
-  vi: { vn: 'Việt Nam', th: 'Thái Lan', id: 'Indonesia', ph: 'Philippines', my: 'Malaysia', sg: 'Singapore', mm: 'Myanmar', kh: 'Campuchia', la: 'Lào', bn: 'Brunei', tl: 'Đông Timor' },
-  km: { vn: 'វៀតណាម', th: 'ថៃ', id: 'ឥណ្ឌូនេស៊ី', ph: 'ហ្វីលីពីន', my: 'ម៉ាឡេស៊ី', sg: 'សិង្ហបុរី', mm: 'មីយ៉ាន់ម៉ា', kh: 'កម្ពុជា', la: 'ឡាវ', bn: 'ព្រុយណេ', tl: 'ទីម័រឡេស្តេ' },
+  la: '🇱🇦', bn: '🇧🇳', tl: '🇹🇱', regional: '🌏',
 };
 ---
 <BaseLayout>
   <header class="page-header">
     <h1>{t('news.title')}</h1>
     <p class="page-subtitle">{t('news.subtitle')}</p>
-    <p class="page-meta">{sorted.length} {t('stats.items')}</p>
+    <p class="page-meta">
+      📊 {allItems.length} {t('stats.items')}
+      {collected.updated_at && <span class="meta-sep">·</span>}
+      {collected.updated_at && <span class="meta-update">🔄 {collected.updated_at.slice(0, 16).replace('T', ' ')}</span>}
+    </p>
   </header>
 
-  {sorted.length === 0 ? (
+  {allItems.length === 0 ? (
     <div class="news-empty">
       <div class="empty-icon">📡</div>
       <h2>{t('news.noItems')}</h2>
@@ -67,19 +85,20 @@ const countryNames = {
     </div>
   ) : (
     <div class="news-list">
-      {sorted.map((item) => (
+      {allItems.map((item) => (
         <article class="news-card">
           <div class="news-meta">
-            {item.data.featured && <span class="badge-featured">⭐ Featured</span>}
-            <span class="news-topic">{topicEmojis[item.data.topic]} {topicNames[item.data.topic]}</span>
-            {item.data.country && <span class="news-country">{countryFlags[item.data.country] || '🌏'} {(countryNames[lang] && countryNames[lang][item.data.country]) || item.data.country}</span>}
-            <time class="news-date">{item.data.date.toISOString().split('T')[0]}</time>
+            {item.featured && <span class="badge-featured">⭐ Featured</span>}
+            {item.isSample && <span class="badge-sample">📝 示例</span>}
+            <span class="news-topic">{topicEmojis[item.topic] || '📰'} {topicNames[item.topic] || item.topic}</span>
+            <span class="news-country">{countryFlags[item.country] || '🌏'} {item.countryName || item.country}</span>
+            <time class="news-date">{(item.published || item.collected_at || '').slice(0, 10)}</time>
           </div>
-          <h2 class="news-title">{item.data.title}</h2>
-          <p class="news-summary">{item.data.summary}</p>
+          <h2 class="news-title">{item.title}</h2>
+          <p class="news-summary">{item.summary}</p>
           <div class="news-footer">
-            <span class="news-source">📰 {item.data.source}</span>
-            <a href={item.data.sourceUrl} target="_blank" rel="noopener" class="news-link">
+            <span class="news-source">📰 {item.source}</span>
+            <a href={item.url} target="_blank" rel="noopener" class="news-link">
               {t('news.readMore')}
             </a>
           </div>
@@ -91,102 +110,27 @@ const countryNames = {
 
 <style>
   .page-header { margin-bottom: 2rem; }
-  .page-subtitle {
-    color: var(--color-text-muted);
-    font-size: 1.125rem;
-    margin-top: 0.5rem;
-  }
-  .page-meta {
-    color: var(--color-text-muted);
-    font-size: 0.875rem;
-    margin-top: 0.5rem;
-  }
-  .news-empty {
-    text-align: center;
-    padding: 4rem 2rem;
-    background: var(--color-bg-soft);
-    border-radius: 12px;
-    border: 1px dashed var(--color-border);
-  }
+  .page-subtitle { color: var(--color-text-muted); font-size: 1.125rem; margin-top: 0.5rem; }
+  .page-meta { color: var(--color-text-muted); font-size: 0.875rem; margin-top: 0.5rem; }
+  .meta-sep { margin: 0 0.5rem; opacity: 0.5; }
+  .meta-update { color: var(--color-primary); }
+  .news-empty { text-align: center; padding: 4rem 2rem; background: var(--color-bg-soft); border-radius: 12px; border: 1px dashed var(--color-border); }
   .empty-icon { font-size: 4rem; margin-bottom: 1rem; }
   .news-empty h2 { margin-bottom: 1rem; }
-  .news-empty p {
-    color: var(--color-text-muted);
-    max-width: 500px;
-    margin: 0 auto 2rem;
-  }
-  .btn {
-    display: inline-block;
-    padding: 0.75rem 1.5rem;
-    background: var(--color-primary);
-    color: white;
-    border-radius: var(--radius);
-    font-weight: 600;
-  }
+  .news-empty p { color: var(--color-text-muted); max-width: 500px; margin: 0 auto 2rem; }
+  .btn { display: inline-block; padding: 0.75rem 1.5rem; background: var(--color-primary); color: white; border-radius: var(--radius); font-weight: 600; }
   .btn:hover { background: var(--color-primary-dark); color: white; }
-  .news-list {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-  }
-  .news-card {
-    background: var(--color-card);
-    border: 1px solid var(--color-border);
-    border-radius: 12px;
-    padding: 1.5rem;
-    transition: all 0.2s;
-  }
-  .news-card:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-md);
-    border-color: var(--color-primary);
-  }
-  .news-meta {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.75rem;
-    align-items: center;
-    margin-bottom: 0.75rem;
-    font-size: 0.875rem;
-  }
-  .badge-featured {
-    background: var(--color-accent);
-    color: white;
-    padding: 0.15rem 0.6rem;
-    border-radius: 12px;
-    font-size: 0.75rem;
-    font-weight: 600;
-  }
-  .news-topic, .news-country, .news-date {
-    color: var(--color-text-muted);
-  }
-  .news-title {
-    font-size: 1.25rem;
-    line-height: 1.4;
-    margin-bottom: 0.5rem;
-  }
-  .news-summary {
-    color: var(--color-text);
-    line-height: 1.6;
-    margin-bottom: 1rem;
-  }
-  .news-footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    padding-top: 0.75rem;
-    border-top: 1px solid var(--color-border);
-  }
-  .news-source {
-    font-size: 0.875rem;
-    color: var(--color-text-muted);
-  }
-  .news-link {
-    color: var(--color-primary);
-    font-weight: 500;
-    font-size: 0.875rem;
-  }
+  .news-list { display: flex; flex-direction: column; gap: 1.5rem; }
+  .news-card { background: var(--color-card); border: 1px solid var(--color-border); border-radius: 12px; padding: 1.5rem; transition: all 0.2s; }
+  .news-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); border-color: var(--color-primary); }
+  .news-meta { display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center; margin-bottom: 0.75rem; font-size: 0.875rem; }
+  .badge-featured { background: var(--color-accent); color: white; padding: 0.15rem 0.6rem; border-radius: 12px; font-size: 0.75rem; font-weight: 600; }
+  .badge-sample { background: var(--color-text-muted); color: white; padding: 0.15rem 0.6rem; border-radius: 12px; font-size: 0.75rem; font-weight: 600; }
+  .news-topic, .news-country, .news-date { color: var(--color-text-muted); }
+  .news-title { font-size: 1.25rem; line-height: 1.4; margin-bottom: 0.5rem; }
+  .news-summary { color: var(--color-text); line-height: 1.6; margin-bottom: 1rem; }
+  .news-footer { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem; padding-top: 0.75rem; border-top: 1px solid var(--color-border); }
+  .news-source { font-size: 0.875rem; color: var(--color-text-muted); }
+  .news-link { color: var(--color-primary); font-weight: 500; font-size: 0.875rem; }
   .news-link:hover { text-decoration: underline; }
 </style>
