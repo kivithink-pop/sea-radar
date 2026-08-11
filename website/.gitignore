@@ -25,3 +25,13 @@ pnpm-debug.log*
 # build artifacts (don't commit these)
 *.log
 build.log
+
+# python venv
+.venv/
+venv/
+__pycache__/
+*.pyc
+*.pyo
+
+# temp scripts
+scripts/_*.py
